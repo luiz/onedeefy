@@ -4,7 +4,7 @@
 	<groupId>br.usp.ime.lreal</groupId>
 	<artifactId>spiral-image</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>spiral-image</name>
 
 	<properties>
