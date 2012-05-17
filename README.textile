@@ -26,6 +26,8 @@ To get the original image back, you need also to say its original size. Suppose 
 java -jar spiral-image-1.0.jar background-1D.jpg 1024 768 background-2D.jpg
 </pre>
 
+Oh, and you can also use it directly in your Java code. Simply add it to your classpath and use the Spiralizer methods to "spiralize" (transform into 2D) or "despiralize" (transform into 1D) your image.
+
 h1. Supported formats
 
 The supported formats depend on your installed Java, but usually include the most common ones: JPG, PNG and BMP.
