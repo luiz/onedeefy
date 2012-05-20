@@ -25,9 +25,10 @@ import java.util.ServiceLoader;
 import javax.imageio.ImageIO;
 
 /**
- * Command-line interface for all of the algorithms implemented
+ * Command-line interface for all the algorithms implemented
  *
  * @author Luiz Fernando Oliveira Corte Real
+ * @see Linearizer
  */
 public final class Main {
 	private static final Map<String, Linearizer> algorithms = new HashMap<String, Linearizer>();

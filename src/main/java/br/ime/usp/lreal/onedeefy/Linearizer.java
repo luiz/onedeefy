@@ -16,12 +16,24 @@ limitations under the License.
 package br.ime.usp.lreal.onedeefy;
 
 import java.awt.image.BufferedImage;
+import java.util.ServiceLoader;
 
 /**
+ * <p>
  * This interface describes an algorithm to transform a 2D image into 1D and
  * vice-versa.
+ * </p>
+ *
+ * <p>
+ * <b>NOTE</b>: when implementing this class, add also its full qualified name
+ * (FQN) to a file that describes the implementers of this interface. This file
+ * has the name equal to this interface's FQN and is located inside a
+ * <tt>META-INF</tt> folder in the classpath. This ensures that {@link Main}
+ * will automatically find the new implementation.
+ * </p>
  *
  * @author Luiz Fernando Oliveira Corte Real
+ * @see ServiceLoader
  */
 public interface Linearizer {
 
