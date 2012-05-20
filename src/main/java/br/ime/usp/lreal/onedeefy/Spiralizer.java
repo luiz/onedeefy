@@ -88,4 +88,9 @@ public final class Spiralizer implements Linearizer {
 		}
 		return output;
 	}
+
+	@Override
+	public String getName() {
+		return "spiral";
+	}
 }

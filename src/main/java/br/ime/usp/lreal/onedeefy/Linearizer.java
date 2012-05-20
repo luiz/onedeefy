@@ -28,7 +28,7 @@ public interface Linearizer {
 	/**
 	 * Transforms a 2D image into 1D.
 	 *
-	 * @param image
+	 * @param inputImage
 	 *            Image to be transformed
 	 * @return An 1D image with the same type of the input image, width equal to
 	 *         original's image width times its height, and height equal to one
@@ -38,7 +38,7 @@ public interface Linearizer {
 	/**
 	 * Transforms a 1D image into a 2D one with the given dimensions.
 	 *
-	 * @param image
+	 * @param inputImage
 	 *            1D image to be converted
 	 * @param destWidth
 	 *            Resulting image width
@@ -51,5 +51,11 @@ public interface Linearizer {
 	 */
 	BufferedImage delinearize(BufferedImage inputImage, int destWidth,
 			int destHeight);
+
+	/**
+	 * @return A simple user-friendly name to identify the algorithm in the
+	 *         command line
+	 */
+	String getName();
 
 }

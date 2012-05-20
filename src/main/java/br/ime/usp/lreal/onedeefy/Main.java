@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import javax.imageio.ImageIO;
 
@@ -32,7 +33,10 @@ public final class Main {
 	private static final Map<String, Linearizer> algorithms = new HashMap<String, Linearizer>();
 
 	static {
-		algorithms.put("spiral", new Spiralizer());
+		ServiceLoader<Linearizer> linearizers = ServiceLoader.load(Linearizer.class);
+		for (Linearizer linearizer : linearizers) {
+			algorithms.put(linearizer.getName(), linearizer);
+		}
 	}
 
 	/**
@@ -64,9 +68,13 @@ public final class Main {
 	 */
 	public static void main(String[] args) throws IOException {
 		if (args.length > 2) {
-			Linearizer algorithm = algorithms.get(args[0]);
+			String algorithmName = args[0];
+			Linearizer algorithm = algorithms.get(algorithmName);
 			BufferedImage inputImage = ImageIO.read(new File(args[1]));
-			if (args.length == 3) {
+			if (algorithm == null) {
+				System.out.println("Invalid algorithm: " + algorithmName);
+				printUsage();
+			} else if (args.length == 3) {
 				writeOutput(args[2], algorithm.linearize(inputImage));
 			} else if (args.length == 5) {
 				int destWidth = Integer.parseInt(args[2]);
@@ -91,7 +99,9 @@ public final class Main {
 		System.out.println("\t<algorithm> <input image> <output image> - to encode the input image into 1D");
 		System.out.println("\t<algorithm> <input image> <output width> <output height> <output image> - to encode the input image into 2D");
 		System.out.println("Available algorithms:");
-		System.out.println("\t" + algorithms.keySet());
+		for (String algorithmName : algorithms.keySet()) {
+			System.out.println("\t" + algorithmName);
+		}
 	}
 
 	private static String extensionOf(String fileName) {
