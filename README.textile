@@ -29,3 +29,28 @@ Oh, and you can also use it directly in your Java code. Simply add it to your cl
 h1. Supported image formats
 
 The supported image formats depend on your installed Java, but usually include the most common ones: JPG, PNG and BMP.
+
+h1. Collaborate
+
+It's easy to add your own way of ordering the pixels in an image. There are only two simple steps:
+
+# Implement the interface <tt>Linearize</tt>:
+
+bc. package foo.bar.baz;
+public final class MyOrdering implements Linearize {
+    public BufferedImage linearize(BufferedImage image) {
+        // your ordering algorithm here
+    }
+    public BufferedImage delinearize(BufferedImage image, int width, int height) {
+        // the algorithm to reconstruct the original image here
+    }
+    public String getName() {
+        return "a-nice-name-for-the-final-user";
+    }
+}
+
+# Add the full name of your class to the file <tt>META-INF/services/br.ime.usp.lreal.onedeefy.Linearize</tt> (create it in your project if it doesn't exist):
+
+bc. foo.bar.baz.MyOrdering
+
+And done! It will become available as an algorithm in the command line interface.
