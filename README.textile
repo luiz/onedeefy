@@ -1,8 +1,6 @@
 h1. What is this
 
-Suppose you want to treat an image as a single line. You can do that in many ways. One of them is to run through the image in a spiraling fashion: go straight until you either reach the border of the image or you reach a pixel you've already been at, then turn right.
-
-This is an implementation of the algorithm described above (and its inverse). It's still quite simple, but feel free to use, send feedback or collaborate.
+Suppose you want to treat an image as a single line. You can do that in many ways. Those ways are called <i>pixel orderings</i>. This library provides implementations for a few of them.
 
 h1. How to use
 
@@ -12,10 +10,10 @@ Download the jar available in the "Downloads" link above. Then, in the command l
 java -jar onedeefy-1.0.jar
 </pre>
 
-to get more help. For instance, suppose you have a file called "background.jpg" and you want to convert it to 1D. Then you could run:
+to get more help. For instance, suppose you have a file called "background.jpg" and you want to convert it to 1D using a spiral ordering (see javadoc for class <tt>Spiral</tt>). Then you could run:
 
 <pre>
-java -jar onedeefy-1.0.jar background.jpg background-1D.jpg
+java -jar onedeefy-1.0.jar spiral background.jpg background-1D.jpg
 </pre>
 
 This will result in a file called "background-1D.jpg" being created, and this file will be an image with a single line, formed by all the pixels of the original image.
@@ -23,11 +21,11 @@ This will result in a file called "background-1D.jpg" being created, and this fi
 To get the original image back, you need also to say its original size. Suppose it was 1024x768. Then you could run:
 
 <pre>
-java -jar onedeefy-1.0.jar background-1D.jpg 1024 768 background-2D.jpg
+java -jar onedeefy-1.0.jar spiral background-1D.jpg 1024 768 background-2D.jpg
 </pre>
 
-Oh, and you can also use it directly in your Java code. Simply add it to your classpath and use the Spiralizer methods to "spiralize" (transform into 2D) or "despiralize" (transform into 1D) your image.
+Oh, and you can also use it directly in your Java code. Simply add it to your classpath and call the <tt>linearize</tt> method on the class that implements the pixel ordering that you want to use.
 
-h1. Supported formats
+h1. Supported image formats
 
-The supported formats depend on your installed Java, but usually include the most common ones: JPG, PNG and BMP.
+The supported image formats depend on your installed Java, but usually include the most common ones: JPG, PNG and BMP.

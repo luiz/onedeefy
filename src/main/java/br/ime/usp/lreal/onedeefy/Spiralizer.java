@@ -16,76 +16,26 @@ limitations under the License.
 package br.ime.usp.lreal.onedeefy;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
-import javax.imageio.ImageIO;
-
 /**
- * Converts a 2D image into a 1D one and vice-versa
+ * Converts a 2D image into a 1D one and vice-versa using a spiral ordering of
+ * the pixels. For instance, the pixels in a 5x5 image will be ordered like:
+ *
+ * <pre>
+ * 1  2  3  4  5
+ * 16 17 18 19 6
+ * 15 24 25 20 7
+ * 14 23 22 21 8
+ * 13 12 11 10 9
+ * </pre>
  *
  * @author Luiz Fernando Oliveira Corte Real
  */
-public final class Spiralizer {
+public final class Spiralizer implements Linearizer {
 
-	/**
-	 * Runs the conversion given command-line arguments.
-	 *
-	 * The command-line may be either:
-	 *
-	 * <pre>
-	 * &lt;input image&gt; &lt;output image&gt;
-	 * </pre>
-	 *
-	 * in which case the input image will be transformed into 1D, or
-	 *
-	 * <pre>
-	 * &lt;input image&gt; &lt;output width&gt; &lt;output height&gt; &lt;output image&gt;
-	 * </pre>
-	 *
-	 * in which case the input image will be transformed into 2D
-	 *
-	 * @param args
-	 *            The command-line arguments
-	 * @throws IOException
-	 *             If one of the files cannot be read or written
-	 */
-	public static void main(String[] args) throws IOException {
-		if (args.length == 2) {
-			BufferedImage image = ImageIO.read(new File(args[0]));
-			BufferedImage linearized = despiralize(image);
-			ImageIO.write(linearized, extensionOf(args[1]), new File(args[1]));
-		} else if (args.length == 4) {
-			BufferedImage image = ImageIO.read(new File(args[0]));
-			BufferedImage spiralized = spiralize(image, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-			ImageIO.write(spiralized, extensionOf(args[3]), new File(args[3]));
-		} else {
-			System.out.println("Usage:");
-			System.out.println("\t<input image> <output image> - to encode the input image into 1D");
-			System.out.println("\t<input image> <output width> <output height> <output image> - to encode the input image into 2D");
-		}
-	}
-
-	private static String extensionOf(String fileName) {
-		return fileName.substring(fileName.lastIndexOf('.') + 1);
-	}
-
-	/**
-	 * Transforms a 1D image into a 2D one by folding it in a spiral fashion
-	 *
-	 * @param image
-	 *            1D image to be converted
-	 * @param w
-	 *            Resulting image width
-	 * @param h
-	 *            Resulting image height
-	 * @return A 2D image with the same type as the input image and the expected
-	 *         width and height. Note that the resulting size is not verified to
-	 *         be compatible to the input image's width, so an error may occur
-	 *         if a wrong size is given.
-	 */
-	public static BufferedImage spiralize(BufferedImage image, int w, int h) {
+	@Override
+	public BufferedImage delinearize(BufferedImage image, int w, int h) {
 		int curPos = 0;
 		int x = 0;
 		int y = 0;
@@ -110,16 +60,8 @@ public final class Spiralizer {
 		return output;
 	}
 
-	/**
-	 * Transforms a 2D image into a 1D image by taking pixels from the 2D image
-	 * in a spiral sequence
-	 *
-	 * @param image
-	 *            Image to be transformed
-	 * @return An 1D image with the same type of the input image, width equal to
-	 *         original's image width times its height, and height equal to one
-	 */
-	public static BufferedImage despiralize(BufferedImage image) {
+	@Override
+	public BufferedImage linearize(BufferedImage image) {
 		int h = image.getHeight();
 		int w = image.getWidth();
 		int newWidth = h * w;
@@ -146,5 +88,4 @@ public final class Spiralizer {
 		}
 		return output;
 	}
-
 }
