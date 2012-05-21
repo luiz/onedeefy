@@ -18,22 +18,21 @@ package br.ime.usp.lreal.onedeefy;
 import java.awt.image.BufferedImage;
 
 /**
- * Converts a 2D image into a 1D one and vice-versa using a zig-zag ordering of
- * the pixels, but instead of making the zig-zag in the diagonals as
- * {@link ZigZagger} does, this class does the zig-zag line by line. For
- * instance, the pixels in a 5x5 image will be ordered like:
+ * Converts a 2D image into a 1D one and vice-versa by concatenating all the
+ * lines of the image. For instance, the pixels in a 5x5 image will be ordered
+ * like:
  *
  * <pre>
  * 1  2  3  4  5
- * 10 9  8  7  6
+ * 6  7  8  9  10
  * 11 12 13 14 15
- * 20 19 18 17 16
+ * 16 17 18 19 20
  * 21 22 23 24 25
  * </pre>
  *
  * @author Luiz Fernando Oliveira Corte Real
  */
-public final class HorizontalZigZagger implements Linearizer {
+public final class Concatenator implements Linearizer {
 
 	@Override
 	public BufferedImage linearize(BufferedImage image) {
@@ -43,14 +42,12 @@ public final class HorizontalZigZagger implements Linearizer {
 		BufferedImage output = new BufferedImage(newWidth, 1, image.getType());
 		int x = 0;
 		int y = 0;
-		int deltaX = 1;
 		for (int t = 0; t < newWidth; t++) {
 			output.setRGB(t, 0, image.getRGB(x, y));
-			if (x + deltaX < 0 || x + deltaX >= w) {
-				deltaX = -deltaX;
+			x++;
+			if (x == w) {
+				x = 0;
 				y++;
-			} else {
-				x += deltaX;
 			}
 		}
 		return output;
@@ -61,14 +58,12 @@ public final class HorizontalZigZagger implements Linearizer {
 		BufferedImage output = new BufferedImage(w, h, image.getType());
 		int x = 0;
 		int y = 0;
-		int deltaX = 1;
 		for (int t = 0; t < image.getWidth(); t++) {
 			output.setRGB(x, y, image.getRGB(t, 0));
-			if (x + deltaX < 0 || x + deltaX >= w) {
-				deltaX = -deltaX;
+			x++;
+			if (x == w) {
+				x = 0;
 				y++;
-			} else {
-				x += deltaX;
 			}
 		}
 		return output;
@@ -76,7 +71,7 @@ public final class HorizontalZigZagger implements Linearizer {
 
 	@Override
 	public String getName() {
-		return "horizontal-zigzag";
+		return "lines";
 	}
 
 }
